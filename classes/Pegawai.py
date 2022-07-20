@@ -1,12 +1,13 @@
+import os, sys; sys.path.insert(0, os.path.dirname(os.path.realpath(__name__)))
 from config.db import DBConnection as mydb
 
-class Dosen:
+class Pegawai:
 
     def __init__(self):
-        self.__id=None
-        self.__kode_dosen=None
+        self.__idPegawai=None
+        self.__kode_pegawai=None
         self.__nama=None
-        self.__jk=None
+        self.__posisi=None
         self.__info = None
         self.conn = None
         self.affected = None
@@ -16,7 +17,7 @@ class Dosen:
     @property
     def info(self):
         if(self.__info==None):
-            return "kode_dosen:" + self.__kode_dosen + "\n" + "Nama:" + self.__nama + "\n" + "Jk" + self.__jk
+            return "kode_pegawai:" + self.__kode_pegawai + "\n" + "nama" + self.__nama + "\n"+ "posisi" +  self.__posisi
         else:
             return self.__info
     
@@ -25,16 +26,16 @@ class Dosen:
         self.__info = value
 
     @property
-    def id(self):
-        return self.__id
+    def idPegawai(self):
+        return self.__idPegawai
 
     @property
-    def kode_dosen(self):
-        return self.__kode_dosen
+    def kode_pegawai(self):
+        return self.__kode_pegawai
 
-    @kode_dosen.setter
-    def kode_dosen(self, value):
-        self.__kode_dosen = value
+    @kode_pegawai.setter
+    def kode_pegawai(self, value):
+        self.__kode_pegawai = value
 
     @property
     def nama(self):
@@ -45,81 +46,82 @@ class Dosen:
         self.__nama = value
 
     @property
-    def jk(self):
-        return self.__jk
+    def posisi(self):
+        return self.__posisi
 
-    @jk.setter
-    def jk(self, value):
-        self.__jk = value
+    @posisi.setter
+    def posisi(self, value):
+        self.__posisi= value
+
 
     def simpan(self):
         self.conn = mydb()
-        val = (self.__kode_dosen, self.__nama, self.__jk)
-        sql="INSERT INTO dosen (kode_dosen, nama, jk) VALUES " + str(val)
+        val = (self.__kode_pegawai, self.__nama, self.__posisi)
+        sql="INSERT INTO pegawai (kode_pegawai,nama,posisi) VALUES " + str(val)
         self.affected = self.conn.insert(sql)
         self.conn.disconnect
         return self.affected
 
     def update(self, id):
         self.conn = mydb()
-        val = (self.__kode_dosen, self.__nama, self.__jk, id)
-        sql="UPDATE dosen SET kode_dosen = %s, nama = %s, jk=%s WHERE idmhs=%s"
+        val = (self.__kode_pegawai, self.__nama,self.__posisi, id)
+        sql="UPDATE pegawai SET kode_pegawai=%s, nama=%s, posisi=%s, WHERE idpegawai=%s"
         self.affected = self.conn.update(sql, val)
         self.conn.disconnect
         return self.affected
 
-    def updateBykode_dosen(self, kode_dosen):
+    def updateBykode_pegawai(self, kode_pegawai):
         self.conn = mydb()
-        val = (self.__nama, self.__jk, kode_dosen)
-        sql="UPDATE dosen SET nama = %s, jk=%s WHERE kode_dosen=%s"
+        val = (self.__nama,self.__posisi, kode_pegawai)
+        sql="UPDATE pegawai SET nama=%s, posisi=%s WHERE kode_pegawai=%s"
         self.affected = self.conn.update(sql, val)
         self.conn.disconnect
         return self.affected        
 
     def delete(self, id):
         self.conn = mydb()
-        sql="DELETE FROM dosen WHERE idmhs='" + str(id) + "'"
+        sql="DELETE FROM pegawai WHERE idpegawai='" + str(id) + "'"
         self.affected = self.conn.delete(sql)
         self.conn.disconnect
         return self.affected
 
-    def deleteBykode_dosen(self, kode_dosen):
+    def deleteBykode_pegawai(self, kode_pegawai):
         self.conn = mydb()
-        sql="DELETE FROM dosen WHERE kode_dosen='" + str(kode_dosen) + "'"
+        sql="DELETE FROM pegawai WHERE kode_pegawai='" + str(kode_pegawai) + "'"
         self.affected = self.conn.delete(sql)
         self.conn.disconnect
         return self.affected
 
-    def getByID(self, id):
+    def getByID(self, idPegawai):
         self.conn = mydb()
-        sql="SELECT * FROM dosen WHERE idmhs='" + str(id) + "'"
+        sql="SELECT * FROM pegawai WHERE idpegawai='" + str(idPegawai) + "'"
         self.result = self.conn.findOne(sql)
-        self.__kode_dosen = self.result[1]
+        self.__kode_pegawai = self.result[1]
         self.__nama = self.result[2]
-        self.__jk = self.result[3]
-        self.__kode_prodi = self.result[4]
+        self.__posisi = self.result[3]
+
         self.conn.disconnect
         return self.result
 
-    def getBykode_dosen(self, kode_dosen):
+    def getBykode_pegawai(self, kode_pegawai):
         self.conn = mydb()
-        sql="SELECT * FROM dosen WHERE kode_dosen='" + str(kode_dosen) + "'"
+        sql="SELECT * FROM pegawai WHERE kode_pegawai='" + str(kode_pegawai) + "'"
         self.result = self.conn.findOne(sql)
         if(self.result!=None):
-            self.__kode_dosen = self.result[1]
+            self.__kode_pegawai = self.result[1]
             self.__nama = self.result[2]
-            self.__jk = self.result[3]
+            self.__posisi= self.result[3]
             self.affected = self.conn.cursor.rowcount
         else:
-            self.__kode_dosen = ''
+            self.__kode_pegawai = ''
             self.__nama = ''
-            self.__jk = ''
+            self.__posisi = ''
             self.affected = 0
         self.conn.disconnect
         return self.result
 
     def getAllData(self):
         self.conn = mydb()
-        sql="SELECT * FROM dosen limit 100"
+        sql="SELECT * FROM pegawai limit 100"
         self.result = self.conn.findAll(sql)
         return self.result
