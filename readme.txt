@@ -32,11 +32,3 @@ Langkah praktikum:
 9. Test Run:
    jalankan file : main.py
 
-Catatan:
-Perlu menyiapkan 1 file gambar (png) sebagai icon untuk setiap modul CRUD tabel,
-cth: jika Anda membuat CRUD untuk tabel: mahasiswa, matakuliah, dan dosen
-maka Anda harus menyiapkan 3 buah file gambar (png) dengan ukuran minimal 64x64 px
-sebagai icon dari ke-3 modul tersebut dan simpan di folder icons.
-
-Icon dapat dicari serta di donlot di:
-https://www.flaticon.com
